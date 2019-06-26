@@ -1,0 +1,64 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jun  5 13:33:12 2019
+
+@author: sweedy
+"""
+
+# full beam calculation
+
+import matplotlib.pyplot as plt
+
+Nmax = 42+1
+beam_radius_fundamental = 60 #mm
+beam_divergence_half_angle = (60/1500)
+distance_source_grating= 1416 #mm
+beam_radius_at_grating = beam_divergence_half_angle*distance_source_grating
+print(beam_radius_at_grating, 'beamradius at grating')
+
+captured_height = 3.63 # height collected from grating
+
+
+a = [i for i in range (Nmax)]
+b = [i for i in range (Nmax)]
+
+print(a)
+
+for i in range(1,Nmax):
+    A = 3.142*(beam_radius_at_grating/i)**2
+
+    print (beam_radius_at_grating/i, "HHG beam radius at grating in mm for N:", i)
+    
+    print('for harmonic N:', i, 'full area HHG', A, 'mm^2')
+    
+    if 60/i < 21/2 and beam_radius_at_grating > captured_height/100:
+
+        # calculates rectangle area: mm x theoretical divergence in one dimension
+        c = captured_height*(beam_radius_at_grating*2/i)
+
+        print(c, 'mm^2 = detected area')
+        print("now")
+
+    #lif beam_radius_at_grating/i < captured_height/2:
+
+       # c = 3.142*(beam_radius_at_grating/i)**2
+
+       
+    elif beam_radius_at_grating/i > 21/2 and beam_radius_at_grating > captured_height:
+        c = captured_height*21
+
+        
+        
+    fraction = c/A
+    b[i] = fraction
+
+    print(fraction,'detection range/ theoretical Area : areal fraction detected from full beam for N:', i )
+    
+plt.figure(1)
+plt.plot(a,b)
+plt.xlabel('N')
+plt.ylabel('correction to account for full beam diameter')
+plt.show()
+
+
+    
